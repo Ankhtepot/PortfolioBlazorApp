@@ -1,0 +1,42 @@
+@page "/items"
+@using Microsoft.EntityFrameworkCore
+@using Portfolio.BlazorApp.Data
+@inject AppDbContext Db
+
+<h3>Items</h3>
+
+@if (items is null)
+{
+    <p>Loading...</p>
+}
+else if (!items.Any())
+{
+    <p>No items yet.</p>
+}
+else
+{
+    <ul>
+        @foreach (var i in items)
+        {
+            <li>@i.Id - @i.Name</li>
+        }
+    </ul>
+}
+
+<button @onclick="Add">Add test item</button>
+
+@code {
+    private List<Item>? items;
+
+    protected override async Task OnInitializedAsync()
+    {
+        items = await Db.Items.ToListAsync();
+    }
+
+    private async Task Add()
+    {
+        Db.Items.Add(new Item { Name = "Docker test item" });
+        await Db.SaveChangesAsync();
+        items = await Db.Items.ToListAsync();
+    }
+}

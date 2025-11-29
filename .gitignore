@@ -1,0 +1,74 @@
+## Build output
+bin/
+obj/
+out/
+TestResults/
+logs/
+
+## User-specific files
+*.user
+*.rsuser
+*.suo
+*.userosscache
+*.sln.docstates
+
+## IDEs
+# Rider / IntelliJ
+.idea/
+*.iml
+
+# Visual Studio
+.vs/
+*.dbmdl
+*.pdb
+*.cache
+
+# VS Code
+.vscode/
+
+## ASP.NET / Blazor artifacts
+# Publish and temporary assets
+wwwroot/dist/
+wwwroot/assets/
+wwwroot/css/
+wwwroot/js/
+*.map
+
+# Blazor WebAssembly & frontend
+Client/bin/
+Client/obj/
+Client/wwwroot/css/
+Client/wwwroot/js/
+Client/wwwroot/assets/
+Client/dist/
+Client/build/
+Client/node_modules/
+
+# Backend (ASP.NET)
+Server/bin/
+Server/obj/
+Server/Properties/PublishProfiles/
+
+# Shared project
+Shared/bin/
+Shared/obj/
+
+## Node related
+node_modules/
+dist/
+bundle/
+
+## OS files
+.DS_Store
+Thumbs.db
+
+## Other tools
+*.swp
+*.bak
+*.tmp
+*.log
+
+## Docker
+.env
+docker-compose.override.yml
+docker-compose*.log
