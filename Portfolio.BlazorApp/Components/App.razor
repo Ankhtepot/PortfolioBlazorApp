@@ -1,4 +1,4 @@
-﻿@using Portfolio.BlazorApp.Components.Layout
+﻿@inject PageTitleState PageTitleState
 @using Portfolio.BlazorApp.Services
 <!DOCTYPE html>
 <html lang="en">
@@ -15,7 +15,7 @@
 </head>
 
 <body>
-<CascadingValue Name="PageTitle" Value="PageTitleState.Instance.Title">
+<CascadingValue Name="PageTitle" Value="PageTitleState.Title">
     <Routes />
 </CascadingValue>
 

@@ -6,10 +6,11 @@ public class PageTitleState
 
     public event Action? OnChange;
     
-    public static PageTitleState Instance { get; } = new PageTitleState();
-
     public void SetTitle(string title)
     {
+        if (Title == title)
+            return;
+        
         Title = title;
         OnChange?.Invoke();
     }

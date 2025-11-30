@@ -5,12 +5,17 @@
 @code {
     protected override void OnInitialized()
     {
-        PageTitleState.OnChange += StateHasChanged;
+        PageTitleState.OnChange += OnTitleChanged;
     }
-
+    
+    private void OnTitleChanged()
+    {
+        InvokeAsync(StateHasChanged);
+    }
+    
     public void Dispose()
     {
-        PageTitleState.OnChange -= StateHasChanged;
+        PageTitleState.OnChange -= OnTitleChanged;
     }
 }
 

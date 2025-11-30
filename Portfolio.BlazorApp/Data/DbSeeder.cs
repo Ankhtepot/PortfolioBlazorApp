@@ -24,13 +24,13 @@ internal class DbSeeder
         );
 
         modelBuilder.Entity<Hero>().HasData(
-            new Hero {Id = 1, Name = "Arthas", Level = 5, BaseDamage = 12, BaseDefense = 6},
-            new Hero {Id = 2, Name = "Lyra", Level = 4, BaseDamage = 10, BaseDefense = 8}
+            new Hero {Id = 1, Name = "Arthas", Level = 5, BaseDamage = 12, BaseDefense = 6, HealthByLevel = 10},
+            new Hero {Id = 2, Name = "Lyra", Level = 4, BaseDamage = 10, BaseDefense = 8, HealthByLevel = 7}
         );
 
         modelBuilder.Entity<Soldier>().HasData(
-            new Soldier {Id = 1, Name = "Footman", Level = 2, BaseDamage = 6, BaseDefense = 4},
-            new Soldier {Id = 2, Name = "Archer", Level = 2, BaseDamage = 7, BaseDefense = 3}
+            new Soldier {Id = 1, Name = "Footman", Level = 2, BaseDamage = 6, BaseDefense = 4, HealthByLevel = 5},
+            new Soldier {Id = 2, Name = "Archer", Level = 2, BaseDamage = 7, BaseDefense = 3, HealthByLevel = 3}
         );
 
         modelBuilder.Entity<PlayerHero>().HasData(

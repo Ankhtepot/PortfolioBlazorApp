@@ -7,6 +7,7 @@ public class Hero
     public int Level { get; set; }
     public int BaseDamage { get; set; }
     public int BaseDefense { get; set; }
+    public int HealthByLevel { get; set; }
 
     public ICollection<PlayerHero> PlayerHeroes { get; set; } = new List<PlayerHero>();
     public ICollection<HeroItem> EquippedItems { get; set; } = new List<HeroItem>();
