@@ -1,4 +1,18 @@
-﻿@inherits LayoutComponentBase
+﻿@using Portfolio.BlazorApp.Services
+@inherits LayoutComponentBase
+@inject PageTitleState PageTitleState
+
+@code {
+    protected override void OnInitialized()
+    {
+        PageTitleState.OnChange += StateHasChanged;
+    }
+
+    public void Dispose()
+    {
+        PageTitleState.OnChange -= StateHasChanged;
+    }
+}
 
 <div class="page">
     <div class="sidebar">
@@ -7,7 +21,7 @@
 
     <main>
         <div class="top-row px-4">
-            <h1>Page title</h1>
+            <h1>@PageTitleState.Title</h1>
             <a href="about" target="_blank">About</a>
         </div>
 

@@ -1,7 +1,11 @@
 @page "/database-overview"
 @using Microsoft.EntityFrameworkCore
 @using Portfolio.BlazorApp.Data
+@using Portfolio.BlazorApp.Services
 @inject AppDbContext Db
+@inject PageTitleState PageTitleState
+
+<PageTitle>Database Overview</PageTitle>
 
 <h3 class="text-center mb-4">Database Overview</h3>
 
@@ -198,4 +202,12 @@ else
         await Db.SaveChangesAsync();
         _items = await Db.Items.AsNoTracking().ToListAsync();
     }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        
+        PageTitleState.SetTitle("Database Overview");
+    }
+
 }

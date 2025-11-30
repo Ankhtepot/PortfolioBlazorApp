@@ -1,7 +1,16 @@
 @page "/about"
+@using Portfolio.BlazorApp.Services
+@inject PageTitleState PageTitleState
+
+<PageTitle>About</PageTitle>
 
 <h3>About this app</h3>
 
 @code {
-    
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        
+        PageTitleState.SetTitle("About");
+    }
 }

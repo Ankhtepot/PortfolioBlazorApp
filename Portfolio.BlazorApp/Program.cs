@@ -1,12 +1,15 @@
 using Portfolio.BlazorApp.Components;
 using Portfolio.BlazorApp.Data;
 using Microsoft.EntityFrameworkCore;
+using Portfolio.BlazorApp.Services;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
+    
+builder.Services.AddScoped<PageTitleState>();
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(
