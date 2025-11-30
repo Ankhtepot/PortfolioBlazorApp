@@ -1,0 +1,201 @@
+@page "/database-overview"
+@using Microsoft.EntityFrameworkCore
+@using Portfolio.BlazorApp.Data
+@inject AppDbContext Db
+
+<h3 class="text-center mb-4">Database Overview</h3>
+
+@if (!_loaded)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <div class="container">
+        <div class="row g-4">
+
+            <!-- Items -->
+            <div class="col-12 col-md-6">
+                <div class="card h-100">
+                    <div class="card-header">
+                        <h5 class="mb-0">Items</h5>
+                    </div>
+                    <div class="card-body">
+                        @if (_items is null || !_items.Any())
+                        {
+                            <p class="text-muted">No items.</p>
+                        }
+                        else
+                        {
+                            <table class="table table-sm table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Id</th>
+                                        <th>Name</th>
+                                        <th>Damage</th>
+                                        <th>Defense</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (Item i in _items)
+                                    {
+                                        <tr>
+                                            <td>@i.Id</td>
+                                            <td>@i.Name</td>
+                                            <td>@i.Damage</td>
+                                            <td>@i.Defense</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <!-- Players -->
+            <div class="col-12 col-md-6">
+                <div class="card h-100">
+                    <div class="card-header">
+                        <h5 class="mb-0">Players</h5>
+                    </div>
+                    <div class="card-body">
+                        @if (_players is null || !_players.Any())
+                        {
+                            <p class="text-muted">No players.</p>
+                        }
+                        else
+                        {
+                            <table class="table table-sm table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Id</th>
+                                        <th>Name</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (Player p in _players)
+                                    {
+                                        <tr>
+                                            <td>@p.Id</td>
+                                            <td>@p.Name</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <!-- Heroes -->
+            <div class="col-12 col-md-6">
+                <div class="card h-100">
+                    <div class="card-header">
+                        <h5 class="mb-0">Heroes</h5>
+                    </div>
+                    <div class="card-body">
+                        @if (_heroes is null || !_heroes.Any())
+                        {
+                            <p class="text-muted">No heroes.</p>
+                        }
+                        else
+                        {
+                            <table class="table table-sm table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Id</th>
+                                        <th>Name</th>
+                                        <th>Level</th>
+                                        <th>Base Dmg</th>
+                                        <th>Base Def</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (Hero h in _heroes)
+                                    {
+                                        <tr>
+                                            <td>@h.Id</td>
+                                            <td>@h.Name</td>
+                                            <td>@h.Level</td>
+                                            <td>@h.BaseDamage</td>
+                                            <td>@h.BaseDefense</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <!-- Soldiers -->
+            <div class="col-12 col-md-6">
+                <div class="card h-100">
+                    <div class="card-header">
+                        <h5 class="mb-0">Soldiers</h5>
+                    </div>
+                    <div class="card-body">
+                        @if (_soldiers is null || !_soldiers.Any())
+                        {
+                            <p class="text-muted">No soldiers.</p>
+                        }
+                        else
+                        {
+                            <table class="table table-sm table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Id</th>
+                                        <th>Name</th>
+                                        <th>Level</th>
+                                        <th>Base Dmg</th>
+                                        <th>Base Def</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (Soldier s in _soldiers)
+                                    {
+                                        <tr>
+                                            <td>@s.Id</td>
+                                            <td>@s.Name</td>
+                                            <td>@s.Level</td>
+                                            <td>@s.BaseDamage</td>
+                                            <td>@s.BaseDefense</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        }
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+}
+
+<button class="btn btn-primary mt-3" @onclick="AddTestItem">Add test item</button>
+
+@code {
+    private bool _loaded;
+    private List<Item>? _items;
+    private List<Player>? _players;
+    private List<Hero>? _heroes;
+    private List<Soldier>? _soldiers;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _items = await Db.Items.AsNoTracking().ToListAsync();
+        _players = await Db.Players.AsNoTracking().ToListAsync();
+        _heroes = await Db.Heroes.AsNoTracking().ToListAsync();
+        _soldiers = await Db.Soldiers.AsNoTracking().ToListAsync();
+        _loaded = true;
+    }
+
+    private async Task AddTestItem()
+    {
+        Db.Items.Add(new Item { Name = "Docker test item", Damage = 5, Defense = 1 });
+        await Db.SaveChangesAsync();
+        _items = await Db.Items.AsNoTracking().ToListAsync();
+    }
+}

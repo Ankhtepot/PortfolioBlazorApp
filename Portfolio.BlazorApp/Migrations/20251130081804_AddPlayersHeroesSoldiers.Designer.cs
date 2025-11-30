@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Portfolio.BlazorApp.Data;
 
@@ -10,9 +11,11 @@ using Portfolio.BlazorApp.Data;
 namespace Portfolio.BlazorApp.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251130081804_AddPlayersHeroesSoldiers")]
+    partial class AddPlayersHeroesSoldiers
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -45,24 +48,6 @@ namespace Portfolio.BlazorApp.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Heroes");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            BaseDamage = 12,
-                            BaseDefense = 6,
-                            Level = 5,
-                            Name = "Arthas"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            BaseDamage = 10,
-                            BaseDefense = 8,
-                            Level = 4,
-                            Name = "Lyra"
-                        });
                 });
 
             modelBuilder.Entity("Portfolio.BlazorApp.Data.HeroItem", b =>
@@ -78,28 +63,6 @@ namespace Portfolio.BlazorApp.Migrations
                     b.HasIndex("ItemId");
 
                     b.ToTable("HeroItems");
-
-                    b.HasData(
-                        new
-                        {
-                            HeroId = 1,
-                            ItemId = 1
-                        },
-                        new
-                        {
-                            HeroId = 1,
-                            ItemId = 7
-                        },
-                        new
-                        {
-                            HeroId = 2,
-                            ItemId = 2
-                        },
-                        new
-                        {
-                            HeroId = 2,
-                            ItemId = 6
-                        });
                 });
 
             modelBuilder.Entity("Portfolio.BlazorApp.Data.Item", b =>
@@ -123,78 +86,6 @@ namespace Portfolio.BlazorApp.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Items");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Damage = 10,
-                            Defense = 0,
-                            Name = "Iron Sword"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Damage = 8,
-                            Defense = 0,
-                            Name = "Longbow"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Damage = 12,
-                            Defense = 0,
-                            Name = "Fire Staff"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Damage = 6,
-                            Defense = 0,
-                            Name = "Dagger"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Damage = 14,
-                            Defense = 0,
-                            Name = "War Axe"
-                        },
-                        new
-                        {
-                            Id = 6,
-                            Damage = 0,
-                            Defense = 5,
-                            Name = "Leather Armor"
-                        },
-                        new
-                        {
-                            Id = 7,
-                            Damage = 0,
-                            Defense = 8,
-                            Name = "Iron Shield"
-                        },
-                        new
-                        {
-                            Id = 8,
-                            Damage = 0,
-                            Defense = 10,
-                            Name = "Chainmail"
-                        },
-                        new
-                        {
-                            Id = 9,
-                            Damage = 0,
-                            Defense = 7,
-                            Name = "Magic Cloak"
-                        },
-                        new
-                        {
-                            Id = 10,
-                            Damage = 0,
-                            Defense = 12,
-                            Name = "Tower Shield"
-                        });
                 });
 
             modelBuilder.Entity("Portfolio.BlazorApp.Data.Player", b =>
@@ -212,13 +103,6 @@ namespace Portfolio.BlazorApp.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Players");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "Demo Player"
-                        });
                 });
 
             modelBuilder.Entity("Portfolio.BlazorApp.Data.PlayerHero", b =>
@@ -234,18 +118,6 @@ namespace Portfolio.BlazorApp.Migrations
                     b.HasIndex("HeroId");
 
                     b.ToTable("PlayerHeroes");
-
-                    b.HasData(
-                        new
-                        {
-                            PlayerId = 1,
-                            HeroId = 1
-                        },
-                        new
-                        {
-                            PlayerId = 1,
-                            HeroId = 2
-                        });
                 });
 
             modelBuilder.Entity("Portfolio.BlazorApp.Data.PlayerItem", b =>
@@ -261,28 +133,6 @@ namespace Portfolio.BlazorApp.Migrations
                     b.HasIndex("ItemId");
 
                     b.ToTable("PlayerItems");
-
-                    b.HasData(
-                        new
-                        {
-                            PlayerId = 1,
-                            ItemId = 1
-                        },
-                        new
-                        {
-                            PlayerId = 1,
-                            ItemId = 2
-                        },
-                        new
-                        {
-                            PlayerId = 1,
-                            ItemId = 6
-                        },
-                        new
-                        {
-                            PlayerId = 1,
-                            ItemId = 7
-                        });
                 });
 
             modelBuilder.Entity("Portfolio.BlazorApp.Data.PlayerSoldier", b =>
@@ -298,18 +148,6 @@ namespace Portfolio.BlazorApp.Migrations
                     b.HasIndex("SoldierId");
 
                     b.ToTable("PlayerSoldiers");
-
-                    b.HasData(
-                        new
-                        {
-                            PlayerId = 1,
-                            SoldierId = 1
-                        },
-                        new
-                        {
-                            PlayerId = 1,
-                            SoldierId = 2
-                        });
                 });
 
             modelBuilder.Entity("Portfolio.BlazorApp.Data.Soldier", b =>
@@ -336,24 +174,6 @@ namespace Portfolio.BlazorApp.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Soldiers");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            BaseDamage = 6,
-                            BaseDefense = 4,
-                            Level = 2,
-                            Name = "Footman"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            BaseDamage = 7,
-                            BaseDefense = 3,
-                            Level = 2,
-                            Name = "Archer"
-                        });
                 });
 
             modelBuilder.Entity("Portfolio.BlazorApp.Data.HeroItem", b =>
