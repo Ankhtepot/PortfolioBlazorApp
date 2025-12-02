@@ -1,9 +1,12 @@
 @page "/database-overview"
+@using System.Reflection
 @using Microsoft.EntityFrameworkCore
 @using Portfolio.BlazorApp.Data
+@using Portfolio.BlazorApp.Data.Models
 @using Portfolio.BlazorApp.Services
 @inject AppDbContext Db
 @inject PageTitleState PageTitleState
+@rendermode InteractiveServer
 
 <PageTitle>Database Overview</PageTitle>
 
@@ -16,173 +19,18 @@
 else
 {
     <div class="container">
-        <div class="row g-4">
-
-            <!-- Items -->
-            <div class="col-12 col-md-6">
-                <div class="card h-100">
-                    <div class="card-header">
-                        <h5 class="mb-0">Items</h5>
-                    </div>
-                    <div class="card-body">
-                        @if (_items is null || !_items.Any())
-                        {
-                            <p class="text-muted">No items.</p>
-                        }
-                        else
-                        {
-                            <table class="table table-sm table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>Id</th>
-                                        <th>Name</th>
-                                        <th>Damage</th>
-                                        <th>Defense</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach (Item i in _items)
-                                    {
-                                        <tr>
-                                            <td>@i.Id</td>
-                                            <td>@i.Name</td>
-                                            <td>@i.Damage</td>
-                                            <td>@i.Defense</td>
-                                        </tr>
-                                    }
-                                </tbody>
-                            </table>
-                        }
-                    </div>
+        <div class="d-flex flex-wrap gap-3">
+            @foreach (TableData table in _tables)
+            {
+                <div class="flex-grow-1 flex-basis-0" style="min-width: 320px; max-width: 100%;">
+                    <DatabaseTable Data="table"
+                                   OnAdd="@OnAddEntity"
+                                   OnDelete="@OnDeleteEntity"/>
                 </div>
-            </div>
-
-            <!-- Players -->
-            <div class="col-12 col-md-6">
-                <div class="card h-100">
-                    <div class="card-header">
-                        <h5 class="mb-0">Players</h5>
-                    </div>
-                    <div class="card-body">
-                        @if (_players is null || !_players.Any())
-                        {
-                            <p class="text-muted">No players.</p>
-                        }
-                        else
-                        {
-                            <table class="table table-sm table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>Id</th>
-                                        <th>Name</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach (Player p in _players)
-                                    {
-                                        <tr>
-                                            <td>@p.Id</td>
-                                            <td>@p.Name</td>
-                                        </tr>
-                                    }
-                                </tbody>
-                            </table>
-                        }
-                    </div>
-                </div>
-            </div>
-
-            <!-- Heroes -->
-            <div class="col-12 col-md-6">
-                <div class="card h-100">
-                    <div class="card-header">
-                        <h5 class="mb-0">Heroes</h5>
-                    </div>
-                    <div class="card-body">
-                        @if (_heroes is null || !_heroes.Any())
-                        {
-                            <p class="text-muted">No heroes.</p>
-                        }
-                        else
-                        {
-                            <table class="table table-sm table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>Id</th>
-                                        <th>Name</th>
-                                        <th>Level</th>
-                                        <th>Health by Level</th>
-                                        <th>Base Dmg</th>
-                                        <th>Base Def</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach (Hero h in _heroes)
-                                    {
-                                        <tr>
-                                            <td>@h.Id</td>
-                                            <td>@h.Name</td>
-                                            <td>@h.Level</td>
-                                            <td>@h.HealthByLevel</td>
-                                            <td>@h.BaseDamage</td>
-                                            <td>@h.BaseDefense</td>
-                                        </tr>
-                                    }
-                                </tbody>
-                            </table>
-                        }
-                    </div>
-                </div>
-            </div>
-
-            <!-- Soldiers -->
-            <div class="col-12 col-md-6">
-                <div class="card h-100">
-                    <div class="card-header">
-                        <h5 class="mb-0">Soldiers</h5>
-                    </div>
-                    <div class="card-body">
-                        @if (_soldiers is null || !_soldiers.Any())
-                        {
-                            <p class="text-muted">No soldiers.</p>
-                        }
-                        else
-                        {
-                            <table class="table table-sm table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>Id</th>
-                                        <th>Name</th>
-                                        <th>Level</th>
-                                        <th>Health by Level</th>
-                                        <th>Base Dmg</th>
-                                        <th>Base Def</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach (Soldier s in _soldiers)
-                                    {
-                                        <tr>
-                                            <td>@s.Id</td>
-                                            <td>@s.Name</td>
-                                            <td>@s.Level</td>
-                                            <td>@s.HealthByLevel</td>
-                                            <td>@s.BaseDamage</td>
-                                            <td>@s.BaseDefense</td>
-                                        </tr>
-                                    }
-                                </tbody>
-                            </table>
-                        }
-                    </div>
-                </div>
-            </div>
-
+            }
         </div>
     </div>
 }
-
-<button class="btn btn-primary mt-3" @onclick="AddTestItem">Add test item</button>
 
 @code {
     private bool _loaded;
@@ -191,27 +39,129 @@ else
     private List<Hero>? _heroes;
     private List<Soldier>? _soldiers;
 
+    private List<TableData> _tables = [];
+    private const string TestEntityName = "Entity of ";
+
+    private readonly Dictionary<Type, IQueryable> _dbSets = new();
+
     protected override async Task OnInitializedAsync()
+    {
+        await SetDbTablesLists();
+
+        _dbSets.Add(typeof(Item), Db.Items);
+        _dbSets.Add(typeof(Player), Db.Players);
+        _dbSets.Add(typeof(Hero), Db.Heroes);
+        _dbSets.Add(typeof(Soldier), Db.Soldiers);
+
+        PageTitleState.SetTitle("Database Overview");
+        _tables = GetTables().ToList();
+        _loaded = true;
+    }
+
+    private async Task SetDbTablesLists()
     {
         _items = await Db.Items.AsNoTracking().ToListAsync();
         _players = await Db.Players.AsNoTracking().ToListAsync();
         _heroes = await Db.Heroes.AsNoTracking().ToListAsync();
         _soldiers = await Db.Soldiers.AsNoTracking().ToListAsync();
-        _loaded = true;
     }
 
-    private async Task AddTestItem()
+    private IEnumerable<TableData> GetTables()
     {
-        Db.Items.Add(new Item { Name = "Docker test item", Damage = 5, Defense = 1 });
-        await Db.SaveChangesAsync();
-        _items = await Db.Items.AsNoTracking().ToListAsync();
+        if (_items == null && _players == null && _heroes == null && _soldiers == null)
+        {
+            yield return new TableData("No data", new List<object>(), typeof(object));
+            yield break;
+        }
+
+        yield return new TableData("Items", _items!, typeof(Item));
+        yield return new TableData("Players", _players!, typeof(Player));
+        yield return new TableData("Heroes", _heroes!, typeof(Hero));
+        yield return new TableData("Soldiers", _soldiers!, typeof(Soldier));
     }
 
-    protected override void OnInitialized()
+    private async Task OnAddEntity(Type entityType)
     {
-        base.OnInitialized();
+        // Create a new instance of the entity
+        object? newEntity = Activator.CreateInstance(entityType);
+        if (newEntity is null)
+            return;
+
+        // Get DbSet<TEntity> dynamically: Db.Set<TEntity>()
+        object? dbSetGeneric = typeof(AppDbContext)
+            .GetMethod(nameof(Db.Set), Type.EmptyTypes)!
+            .MakeGenericMethod(entityType)
+            .Invoke(Db, null);
+
+        if (dbSetGeneric is null)
+            return;
         
-        PageTitleState.SetTitle("Database Overview");
-    }
+        // Fill Random values for the new entity based on its type
+        PropertyInfo[] properties = entityType.GetProperties();
+        foreach (PropertyInfo propertyInfo in properties)
+        {
+            if (propertyInfo.Name == "Id") // Skip Id property
+                continue;
 
+            if (propertyInfo.PropertyType == typeof(string))
+            {
+                propertyInfo.SetValue(newEntity, propertyInfo.Name == "Name" 
+                    ? $"{TestEntityName} {entityType.Name}" 
+                    : "Some String");
+            }
+
+            if (propertyInfo.PropertyType == typeof(int))
+            {
+                propertyInfo.SetValue(newEntity, 10.GetRandom());
+            }
+        }
+
+        await Db.AddAsync(newEntity);
+        await Db.SaveChangesAsync();
+        await SetDbTablesLists();
+        
+        _tables = GetTables().ToList();
+        StateHasChanged();
+    }
+    
+    private async Task OnDeleteEntity(object row)
+    {
+        Type rowType = row.GetType();
+
+        if (!_dbSets.TryGetValue(rowType, out IQueryable? _))
+            return;
+
+        // Get the DbSet<> type for this entity type
+        Type genericDbSetType = typeof(DbSet<>).MakeGenericType(rowType);
+        // Cast DbContext.Set<T>() to DbSet<T>
+        object? dbSetInstance = typeof(AppDbContext)
+            .GetMethod(nameof(Db.Set), Type.EmptyTypes)!
+            .MakeGenericMethod(rowType)
+            .Invoke(Db, null);
+
+        if (dbSetInstance == null) return;
+        // Get the Remove method of DbSet<T>
+        MethodInfo? removeMethod = genericDbSetType.GetMethod("Remove", [rowType]);
+        if (removeMethod == null) return;
+
+        // Load entity from DbContext to ensure it's being tracked
+        PropertyInfo? keyProperty = rowType.GetProperty("Id");
+        if (keyProperty == null) return;
+
+        object? idValue = keyProperty.GetValue(row);
+
+        // Use Find from DbSet<T> via reflection to get the tracked entity
+        MethodInfo? findMethod = genericDbSetType.GetMethod("Find", [typeof(object[])]);
+        object? trackedEntity = findMethod?.Invoke(dbSetInstance, [new object[] {idValue!}]);
+        if (trackedEntity == null) return;
+
+        // Invoke Remove(row)
+        removeMethod.Invoke(dbSetInstance, [trackedEntity]);
+        await Db.SaveChangesAsync();
+        await SetDbTablesLists();
+
+        _tables = GetTables().ToList();
+
+        StateHasChanged();
+    }
 }

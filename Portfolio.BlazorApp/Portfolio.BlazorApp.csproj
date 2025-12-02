@@ -18,4 +18,10 @@
       </PackageReference>
     </ItemGroup>
 
+    <ItemGroup>
+      <None Update="Components\DatabaseTable.css">
+        <DependentUpon>DatabaseTable.razor</DependentUpon>
+      </None>
+    </ItemGroup>
+
 </Project>

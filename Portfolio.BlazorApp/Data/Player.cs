@@ -1,9 +1,13 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace Portfolio.BlazorApp.Data;
 
 public class Player
 {
     public int Id { get; set; }
     public string Name { get; set; } = string.Empty;
+    [MaxLength(100)]
+    public string ImageUrl { get; set; } = string.Empty;
 
     public ICollection<PlayerHero> PlayerHeroes { get; set; } = new List<PlayerHero>();
     public ICollection<PlayerSoldier> PlayerSoldiers { get; set; } = new List<PlayerSoldier>();

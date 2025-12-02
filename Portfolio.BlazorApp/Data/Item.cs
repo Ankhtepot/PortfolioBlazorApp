@@ -10,5 +10,7 @@ public class Item
     public string? Name { get; set; } = string.Empty;
     public int Damage { get; set; }
     public int Defense { get; set; }
+    [MaxLength(100)]
+    public string ImageUrl { get; set; } = string.Empty;
     
 }
