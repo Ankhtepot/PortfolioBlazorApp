@@ -1,0 +1,22 @@
+@page "/about"
+@using Backend.Services
+@inject PageTitleState PageTitleState
+
+<PageTitle>About</PageTitle>
+
+<h3>About this app</h3>
+
+<p>This application is a part of my portfolio showcase demonstrating modern backend development with containerization.</p>
+
+<p>It illustrates how backend and database containers can work seamlessly together using Entity Framework (EF) Core, providing efficient data management and interaction.</p>
+
+<p>The app highlights practical use of EF for data access in a containerized environment, showcasing my skills in backend architecture, database integration, and DevOps practices.</p>
+
+@code {
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        
+        PageTitleState.SetTitle("About");
+    }
+}

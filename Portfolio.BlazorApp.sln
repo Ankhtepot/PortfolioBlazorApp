@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Portfolio.BlazorApp", "Portfolio.BlazorApp\Portfolio.BlazorApp.csproj", "{23B9E927-48B1-48F1-8303-EE1DDDCE05FC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Backend", "Backend\Backend.csproj", "{23B9E927-48B1-48F1-8303-EE1DDDCE05FC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

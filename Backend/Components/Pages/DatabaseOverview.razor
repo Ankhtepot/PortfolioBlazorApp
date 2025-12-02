@@ -1,0 +1,31 @@
+@page "/database-overview"
+@using Backend.Data
+@using Backend.Data.Models
+@using Backend.Services
+@inject AppDbContext Db
+@inject PageTitleState PageTitleState
+@rendermode InteractiveServer
+
+<PageTitle>Database Overview</PageTitle>
+
+<h3 class="text-center mb-4">Database Overview</h3>
+
+@if (!_loaded)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <div class="container">
+        <div class="d-flex flex-wrap gap-3">
+            @foreach (TableData table in _tables)
+            {
+                <div class="flex-grow-1 flex-basis-0" style="min-width: 320px; max-width: 100%;">
+                    <DatabaseTable Data="table"
+                                   OnAdd="@OnAddEntity"
+                                   OnDelete="@OnDeleteEntity"/>
+                </div>
+            }
+        </div>
+    </div>
+}
