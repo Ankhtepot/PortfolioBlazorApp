@@ -19,11 +19,13 @@ public partial class DatabaseOverview
 
     protected override async Task OnInitializedAsync()
     {
+        _loaded = false;
         await SetDbTablesLists();
 
         PageTitleState.SetTitle("Database Overview");
         _tables = GetTables().ToList();
         _loaded = true;
+        StateHasChanged();
     }
 
     private async Task SetDbTablesLists()

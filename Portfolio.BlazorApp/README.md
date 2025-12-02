@@ -5,7 +5,7 @@ This is a portfolio project built using .NET technologies. It showcases my famil
 
 Ports used:
 -1437 - MSSQL
--8081 - ASP.NET Core API - Backend (also 8080 now - TODO: remove one, 8080 for Frontend)
+-8081 - ASP.NET Core API - Backend
 
 ### Running with Docker
 Run the application using the following command in root
